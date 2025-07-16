@@ -5,9 +5,90 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Feliz Aniversário</title>
   <link rel="stylesheet" href="style.css">
+  <style>
+    body, html {
+      margin: 0;
+      padding: 0;
+      font-family: sans-serif;
+      text-align: center;
+      background: #111;
+      color: #fff;
+    }
+
+    #password-screen, #countdown, #alert-overlay, #start-screen, .scene, #final {
+      display: none;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      padding: 20px;
+    }
+
+    input[type="password"] {
+      padding: 10px;
+      font-size: 16px;
+      margin-bottom: 10px;
+      border-radius: 5px;
+      border: none;
+    }
+
+    button {
+      padding: 12px 25px;
+      font-size: 16px;
+      background-color: #ff69b4;
+      color: white;
+      border: none;
+      border-radius: 30px;
+      cursor: pointer;
+      transition: 0.3s ease;
+      box-shadow: 0 4px 10px rgba(255, 105, 180, 0.3);
+    }
+
+    button:hover {
+      background-color: #ff85c1;
+      box-shadow: 0 6px 12px rgba(255, 105, 180, 0.4);
+    }
+
+    .confetti {
+      position: absolute;
+      top: 0;
+      width: 10px;
+      height: 10px;
+      opacity: 0.8;
+      animation: fall linear infinite;
+    }
+
+    @keyframes fall {
+      to {
+        transform: translateY(100vh);
+      }
+    }
+
+    .scene-text {
+      max-width: 600px;
+      margin: 20px;
+      white-space: pre-line;
+    }
+  </style>
 </head>
 <body>
 
+<!-- Tela de senha -->
+<div id="password-screen" style="display:flex;">
+  <h2>Digite a senha para continuar</h2>
+  <input type="password" id="password" placeholder="Senha" />
+  <button onclick="checkPassword()">Entrar</button>
+  <div id="password-error" style="color:red; display:none;">Senha incorreta.</div>
+</div>
+
+<!-- Contagem regressiva -->
+<div id="countdown">
+  <h2>Calma coelha, ainda não chegou a hora 🐇</h2>
+  <p>Faltam:</p>
+  <h1 id="timer"></h1>
+</div>
+
+<!-- Alerta inicial -->
 <div id="alert-overlay">
   <div id="alert-popup">
     <div class="alert-title">⚠️ Atenção! ⚠️</div>
@@ -18,11 +99,13 @@
   </div>
 </div>
 
-<div id="start-screen" style="display:none;">
+<!-- Início -->
+<div id="start-screen">
   <div id="promise-text">As promessas existem para serem cumpridas…</div>
   <button onclick="showScene('scene1')">Começar</button>
 </div>
 
+<!-- Cenas -->
 <div id="scene1" class="scene">
   <div class="scene-text">
     Às vezes eu não gosto de vc.
@@ -101,6 +184,46 @@
 <audio id="song" src="musica_da_ju.MP3" loop></audio>
 
 <script>
+  const senhaCorreta = "coelha";
+  const liberacao = new Date("2025-07-27T00:00:00");
+
+  function checkPassword() {
+    const senha = document.getElementById("password").value;
+    if (senha.toLowerCase() === senhaCorreta) {
+      const agora = new Date();
+      if (agora >= liberacao) {
+        document.getElementById('password-screen').style.display = 'none';
+        document.getElementById('alert-overlay').style.display = 'flex';
+      } else {
+        document.getElementById('password-screen').style.display = 'none';
+        document.getElementById('countdown').style.display = 'flex';
+        startCountdown();
+      }
+    } else {
+      document.getElementById("password-error").style.display = "block";
+    }
+  }
+
+  function startCountdown() {
+    const timerElement = document.getElementById("timer");
+    const intervalo = setInterval(() => {
+      const agora = new Date();
+      const diff = liberacao - agora;
+
+      if (diff <= 0) {
+        clearInterval(intervalo);
+        location.reload();
+      } else {
+        const dias = Math.floor(diff / (1000 * 60 * 60 * 24));
+        const horas = Math.floor((diff / (1000 * 60 * 60)) % 24);
+        const minutos = Math.floor((diff / 1000 / 60) % 60);
+        const segundos = Math.floor((diff / 1000) % 60);
+
+        timerElement.innerText = `${dias}d ${horas}h ${minutos}m ${segundos}s`;
+      }
+    }, 1000);
+  }
+
   function closeAlert() {
     document.getElementById('alert-overlay').style.display = 'none';
     document.getElementById('start-screen').style.display = 'flex';
@@ -110,15 +233,15 @@
     document.querySelectorAll('.scene, #start-screen').forEach(el => el.style.display = 'none');
     document.getElementById(sceneId).style.display = 'flex';
 
-    if(sceneId === 'scene1') document.getElementById('song').play();
+    if (sceneId === 'scene1') document.getElementById('song').play();
 
-    if(sceneId === 'final') {
-      for(let i=0; i<30; i++){
+    if (sceneId === 'final') {
+      for (let i = 0; i < 30; i++) {
         let confetti = document.createElement('div');
         confetti.classList.add('confetti');
         confetti.style.left = Math.random() * window.innerWidth + 'px';
-        confetti.style.background = `hsl(${Math.random()*360},70%,70%)`;
-        confetti.style.animationDuration = (Math.random()*2+3)+'s';
+        confetti.style.background = `hsl(${Math.random() * 360},70%,70%)`;
+        confetti.style.animationDuration = (Math.random() * 2 + 3) + 's';
         document.body.appendChild(confetti);
       }
     }
