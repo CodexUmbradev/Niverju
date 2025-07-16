@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Feliz Aniversário</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div id="alert-overlay">
+  <div id="alert-popup">
+    <div class="alert-title">⚠️ Atenção! ⚠️</div>
+    <div class="alert-message">
+      🐇Saia de perto de todo mundo antes de continuar.🐇
+    </div>
+    <button onclick="closeAlert()">Entendi</button>
+  </div>
+</div>
+
+<div id="start-screen" style="display:none;">
+  <div id="promise-text">As promessas existem para serem cumpridas…</div>
+  <button onclick="showScene('scene1')">Começar</button>
+</div>
+
+<div id="scene1" class="scene">
+  <div class="scene-text">
+    Às vezes eu não gosto de vc.
+    Vc me irrita, me confunde, me tira do sério.
+    Mas a real é que a nossa amizade é tudo, menos normal.
+    Já rimos até passar mal, já brigamos feito besta, já ficamos sem se falar por orgulho…
+    mas no fim, a gente sempre volta.
+    Vc é teimosa, some do nada, tem esse jeito caótico de mexer comigo sem nem perceber.
+    Mas mesmo com td isso… eu gosto mto de vc.
+    Gosto do seu jeito todo doido, das nossas conversas aleatórias, das risadas sem sentido.
+    Até quando vc me tira do sério, eu meio que gosto disso tbm pq no fundo
+    vc tem um lugar aqui que ninguém mais tem.
+    E por mais que a gente se desencontre às vezes
+    eu sempre acabo voltando pq vc é importante pra mim.
+    Hoje é o seu dia e eu queria te dar algo que tivesse um pouco de tudo isso:
+    carinho, zoeira, verdade... e talvez, só talvez, um pouquinho a mais.
+  </div>
+  <button onclick="showScene('scene2')">Próximo</button>
+</div>
+
+<div id="scene2" class="scene">
+  <div class="scene-text">
+    Lembra daquela promessa que eu fiz?
+    Ou você já esqueceu de novo, né?
+    Pior que eu até já perdi a conta de quantas vezes isso aconteceu.
+    Nem tudo tá na caixinha.
+    Tem coisa que só quem presta atenção vai descobrir.
+    Mas fica tranquila, vou te ajudar a lembrar…
+  </div>
+  <button onclick="showScene('scene3')">Quero saber!</button>
+</div>
+
+<div id="scene3" class="scene">
+  <div class="scene-text">
+    Lembra que eu te chamava de coelha?🐇
+    Pois é...
+    Tá tudo guardado dentro da caixa.
+
+    Agora é com vc
+    vai seguindo as instruções, passo a passo, como tá orientado.
+
+    Depois que abrir a caixa, volta aqui e aperta o botão.
+  </div>
+  <button onclick="showScene('scene4')">Já abri a caixa!</button>
+</div>
+
+<div id="scene4" class="scene">
+  <div class="scene-text">
+    Então… abriu.
+    Um coelho, um chocolate…
+
+    Mas a verdadeira surpresa tá no coelho.
+
+    Só que ainda não é hora de abrir.
+
+    Segue as instruções direitinho.
+    Quando for o momento certo, você vai saber.
+  </div>
+  <button onclick="showScene('final')">Continuar</button>
+</div>
+
+<div id="final" class="scene">
+  <h1>🎉 Feliz Aniversário Ju! 🎉</h1>
+  <div class="scene-text">
+    Agora você já pode abrir o coelho.
+
+    Espero que curta o presente.
+
+    Eu vou ficar com a outra metade,
+    vai ser nossa metadinha.
+
+    Te amu 🖕🖕
+  </div>
+</div>
+
+<audio id="song" src="musica_da_ju.mp3" loop></audio>
+
+<script>
+  function closeAlert() {
+    document.getElementById('alert-overlay').style.display = 'none';
+    document.getElementById('start-screen').style.display = 'flex';
+  }
+
+  function showScene(sceneId) {
+    document.querySelectorAll('.scene, #start-screen').forEach(el => el.style.display = 'none');
+    document.getElementById(sceneId).style.display = 'flex';
+
+    if(sceneId === 'scene1') document.getElementById('song').play();
+
+    if(sceneId === 'final') {
+      for(let i=0; i<30; i++){
+        let confetti = document.createElement('div');
+        confetti.classList.add('confetti');
+        confetti.style.left = Math.random() * window.innerWidth + 'px';
+        confetti.style.background = `hsl(${Math.random()*360},70%,70%)`;
+        confetti.style.animationDuration = (Math.random()*2+3)+'s';
+        document.body.appendChild(confetti);
+      }
+    }
+  }
+</script>
+
+</body>
+</html>

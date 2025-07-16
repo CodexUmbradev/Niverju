@@ -1,0 +1,128 @@
+/* Reset básico */
+body, html {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  overflow-x: hidden;
+  font-family: 'Segoe UI', Roboto, sans-serif;
+  text-align: center;
+  background: #fce4ec;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+#alert-overlay {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: rgba(0,0,0,0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 2000;
+}
+
+#alert-popup {
+  background: #fff0f6;
+  border-radius: 20px;
+  padding: 30px 20px;
+  max-width: 90%;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+  text-align: center;
+  animation: popup 0.4s ease;
+}
+
+@keyframes popup {
+  from { transform: scale(0.8); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+.alert-title {
+  font-size: 1.6rem;
+  font-weight: bold;
+  color: #d81b60;
+  margin-bottom: 10px;
+}
+
+.alert-message {
+  font-size: 1.2rem;
+  color: #ad1457;
+  line-height: 1.4;
+}
+
+#start-screen, .scene {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  overflow-y: auto;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+button {
+  padding: 18px 32px;
+  font-size: 1.4rem;
+  border: none;
+  border-radius: 12px;
+  background: #ff4081;
+  color: white;
+  cursor: pointer;
+  box-shadow: 0 4px 10px rgba(255, 64, 129, 0.5);
+  transition: background-color 0.3s ease;
+  margin-top: 24px;
+  max-width: 90vw;
+  word-break: break-word;
+}
+
+button:hover, button:focus {
+  background-color: #e03575;
+  outline: none;
+}
+
+h1 {
+  font-size: 2.2rem;
+  color: #d81b60;
+  margin-bottom: 20px;
+  padding: 0 10px;
+}
+
+.confetti {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  background: #ff4081;
+  animation: fall 3s linear infinite;
+  border-radius: 3px;
+}
+
+@keyframes fall {
+  0% { transform: translateY(-10px); opacity: 1; }
+  100% { transform: translateY(100vh); opacity: 0; }
+}
+
+#promise-text, .scene-text {
+  font-size: 1.1rem;
+  color: #ad1457;
+  max-width: 700px;
+  text-align: left;
+  line-height: 1.6;
+  white-space: pre-wrap;
+  padding: 0 10px;
+  margin: 0 auto;
+}
+
+@media (max-width: 480px) {
+  h1 { font-size: 1.8rem; }
+  button {
+    font-size: 1.2rem;
+    padding: 16px 24px;
+  }
+  #promise-text, .scene-text {
+    font-size: 1rem;
+    max-width: 90vw;
+  }
+}
